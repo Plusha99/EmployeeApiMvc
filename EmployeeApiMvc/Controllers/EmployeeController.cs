@@ -14,7 +14,7 @@ namespace EmployeeApiMvc.Controllers
             _context = context;
         }
         // GET: EmployeeController1
-        public ActionResult Index()
+        public IActionResult Index()
         {
             var employees = _context.Employees.ToList();
             List<EmployeeDto> result = new List<EmployeeDto>();
@@ -38,71 +38,43 @@ namespace EmployeeApiMvc.Controllers
             return View(result);
         }
 
-        // GET: EmployeeController1/Details/5
-        public ActionResult Details(int id)
+
+        [HttpGet]
+        public IActionResult Create()
         {
             return View();
         }
-
-        // GET: EmployeeController1/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: EmployeeController1/Create
+        
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public IActionResult Create(Employee employeeData)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
+                if(ModelState.IsValid)
+                {
+                    var employee = new Employee()
+                    {
+                        FirstName = employeeData.FirstName,
+                        LastName = employeeData.LastName,
+                        DateOfBirth = employeeData.DateOfBirth,
+                        Email = employeeData.Email,
+                        Salary = employeeData.Salary
+                    };
 
-        // GET: EmployeeController1/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: EmployeeController1/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
+                    _context.Employees.Add(employee);
+                    _context.SaveChanges();
+                    TempData["successMessage"] = "Employee created successfuly";
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    TempData["errorMessage"] = "Couldn't create an employee ";
+                    return View();
+                }
             }
-            catch
+            catch (Exception ex)
             {
-                return View();
-            }
-        }
-
-        // GET: EmployeeController1/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: EmployeeController1/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
+                TempData["errorMessage"] = ex.Message;
                 return View();
             }
         }
