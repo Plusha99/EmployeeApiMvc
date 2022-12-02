@@ -25,12 +25,12 @@ else if(!string.IsNullOrWhiteSpace(@errorMessage))
     <table class="table table-dark table-striped">
         <thead>
             <tr class="table-active">
-                <th>Id</th>
-                <th>Name</th>
-                <th>Date Of Birth</th>
-                <th>E-mail</th>
-                <th>Salary</th>
-                <th>Action</th>
+                <th class="text-center">Id</th>
+                <th class="text-center">Name</th>
+                <th class="text-center">Date Of Birth</th>
+                <th class="text-center">E-mail</th>
+                <th class="text-center">Salary</th>
+                <th class="text-center">Action</th>
             </tr>
         </thead>
         <tbody>
@@ -40,11 +40,11 @@ else if(!string.IsNullOrWhiteSpace(@errorMessage))
                 {
                     <tr>
                         <td>@employeedto.Id</td>
-                        <td>@employeedto.FullName</td>
+                        <td class="text-center">@employeedto.FullName</td>
                         <td>@employeedto.DateOfBirth.ToString("dd/MM/yyyy")</td>
                         <td>@employeedto.Email</td>
-                        <td>@employeedto.Salary</td>
-                        <td>
+                        <td class="text-end">@employeedto.Salary</td>
+                        <td class="text-center">
                             <a asp-controller="Employee" asp-action="Edit" asp-route-id="@employeedto.Id" class="btn btn-primary">Edit</a>
                             <a asp-controller="Employee" asp-action="Delete" asp-route-id="@employeedto.Id" class="btn btn-danger">Delete</a>
                         </td>

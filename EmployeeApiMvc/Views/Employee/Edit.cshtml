@@ -1,20 +1,23 @@
 ﻿@model EmployeeApiMvc.Models.Dtos.EmployeeDto
 @{
-    ViewData["Title"] = "Create employee";
+    ViewData["Title"] = "Edit employee";
     var errorMessage = TempData["errorMessage"]?.ToString();
 }
-
 <h3>@ViewData["Title"]</h3>
 <hr />
-@if(!string.IsNullOrWhiteSpace(@errorMessage))
+@if (!string.IsNullOrWhiteSpace(@errorMessage))
 {
-    <div class="alert alert-danger">
-        <strong>Error</strong>@errorMessage
-        <button type="button" class="btn-close float-end" data-bs-dismiss="alert"></button>
-    </div>
-    
+        <div class="alert alert-danger">
+            <strong>Error</strong>@errorMessage
+            <button type="button" class="btn-close float-end" data-bs-dismiss="alert"></button>
+        </div>
+
 }
-<form action="Create" method="post" style="width: 50%" autocomplete="off">
+<form action="Edit" method="post" style="width: 50%" autocomplete="off">
+    <div class="mb-3">
+        <label class="form-label">Id</label>
+        <input type="text" class="form-control" asp-for="Id" readonly />
+    </div>
     <div class="mb-3">
         <label class="form-label">First name</label>
         <input type="text" class="form-control" asp-for="FirstName" />
@@ -44,11 +47,11 @@
         </div>
     </div>
     <div class="d-grid" style="width: 35%">
-        <button type="submit" class="btn btn-primary">Create new employee</button>
+        <button type="submit" class="btn btn-success">Update employee</button>
     </div>
 </form>
 @section Scripts
-{
+    {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }

@@ -78,5 +78,69 @@ namespace EmployeeApiMvc.Controllers
                 return View();
             }
         }
+
+        [HttpGet]
+        public IActionResult Edit(int Id)
+        {
+            try
+            {
+                var employee = _context.Employees.SingleOrDefault(x => x.Id == Id);
+                if(employee != null)
+                {
+                    var employeeView = new EmployeeDto()
+                    {
+                        FirstName = employee.FirstName,
+                        LastName = employee.LastName,
+                        DateOfBirth = employee.DateOfBirth,
+                        Email = employee.Email,
+                        Salary = employee.Salary
+                    };
+                    return View(employeeView);
+                }
+                else
+                {
+                    TempData["errorMessage"] = $"Employee details not avalibale with the Id {Id}";
+                    return RedirectToAction("Index");
+                }
+            }
+            catch (Exception ex)
+            {
+                TempData["errorMessage"] = ex.Message;
+                return RedirectToAction("Index");
+            }
+        }
+
+        public IActionResult Edit(EmployeeDto model)
+        {
+            try
+            {
+                if(ModelState.IsValid)
+                {
+                    var employee = new Employee()
+                    {
+                        Id = model.Id,
+                        FirstName = model.FirstName,
+                        LastName = model.LastName,
+                        DateOfBirth = model.DateOfBirth,
+                        Email = model.Email,
+                        Salary = model.Salary
+                    };
+                    _context.Employees.Update(employee);
+                    _context.SaveChanges();
+                    TempData["successMessage"] = "Model details updated";
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    TempData["erroeMessage"] = "Model data is invalid";
+                    return View();
+                }
+            }
+            catch (Exception ex)
+            {
+                TempData["errorMessage"] = ex.Message;
+                return RedirectToAction("Index");
+            }
+        }
     }
 }
