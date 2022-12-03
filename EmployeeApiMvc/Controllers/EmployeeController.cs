@@ -63,12 +63,12 @@ namespace EmployeeApiMvc.Controllers
 
                     _context.Employees.Add(employee);
                     _context.SaveChanges();
-                    TempData["successMessage"] = "Employee created successfuly";
+                    TempData["successMessage"] = " Employee created successfuly";
                     return RedirectToAction("Index");
                 }
                 else
                 {
-                    TempData["errorMessage"] = "Couldn't create an employee ";
+                    TempData["errorMessage"] = " Couldn't create an employee ";
                     return View();
                 }
             }
@@ -99,7 +99,7 @@ namespace EmployeeApiMvc.Controllers
                 }
                 else
                 {
-                    TempData["errorMessage"] = $"Employee details not avalibale with the Id {Id}";
+                    TempData["errorMessage"] = $" Employee details not avalibale with the Id {Id}";
                     return RedirectToAction("Index");
                 }
             }
@@ -110,6 +110,7 @@ namespace EmployeeApiMvc.Controllers
             }
         }
 
+        [HttpPost]
         public IActionResult Edit(EmployeeDto model)
         {
             try
@@ -127,12 +128,12 @@ namespace EmployeeApiMvc.Controllers
                     };
                     _context.Employees.Update(employee);
                     _context.SaveChanges();
-                    TempData["successMessage"] = "Model details updated";
+                    TempData["successMessage"] = " Model details updated";
                     return RedirectToAction("Index");
                 }
                 else
                 {
-                    TempData["erroeMessage"] = "Model data is invalid";
+                    TempData["erroeMessage"] = " Model data is invalid";
                     return View();
                 }
             }
@@ -140,6 +141,63 @@ namespace EmployeeApiMvc.Controllers
             {
                 TempData["errorMessage"] = ex.Message;
                 return RedirectToAction("Index");
+            }
+        }
+
+        [HttpGet]
+        public IActionResult Delete(int Id)
+        {
+            try
+            {
+                var employee = _context.Employees.SingleOrDefault(x => x.Id == Id);
+                if(employee != null)
+                {
+                    var employeeView = new EmployeeDto()
+                    {
+                        FirstName = employee.FirstName,
+                        LastName = employee.LastName,
+                        DateOfBirth = employee.DateOfBirth,
+                        Email = employee.Email,
+                        Salary = employee.Salary
+                    };
+                    return View(employeeView);
+                }
+                else
+                {
+                    TempData["errorMessage"] = $" Employee details not avalibale with the Id {Id}";
+                    return RedirectToAction("Index");
+                }
+            }
+            catch (Exception ex)
+            {
+                TempData["errorMessage"] = ex.Message;
+                return RedirectToAction("Index");
+            }
+        }
+
+        [HttpPost]
+        public IActionResult Delete(EmployeeDto model)
+        {
+            try
+            {
+                var employee = _context.Employees.SingleOrDefault(x => x.Id == model.Id);
+                if(employee != null)
+                {
+                    _context.Employees.Remove(employee);
+                    _context.SaveChanges();
+                    TempData["successMessage"] = " Employee deleted";
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    TempData["errorMessage"] = $" Employee details not avalibale with the Id {model.Id}";
+                    return RedirectToAction("Index");
+                }
+            }
+            catch (Exception ex)
+            {
+                TempData["errorMessage"] = ex.Message;
+                return View();
             }
         }
     }
