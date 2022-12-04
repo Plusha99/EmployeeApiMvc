@@ -1,0 +1,66 @@
+﻿@model List<EmployeeApiMvc.Models.Dtos.TransactionDto>
+@{
+    ViewData["Title"] = "Transaction details";
+    var successMessage = TempData["successMessage"]?.ToString();
+    var errorMessage = TempData["errorMessage"]?.ToString();
+}
+<h3>@ViewData["Title"]</h3>
+<hr />
+@if (!string.IsNullOrWhiteSpace(@successMessage))
+{
+    <div class="alert alert-success">
+        <strong>Success</strong>@successMessage
+        <button type="button" class="btn-close float-end" data-bs-dismiss="alert"></button>
+    </div>
+}
+else if (!string.IsNullOrWhiteSpace(@errorMessage))
+{
+    <div class="alert alert-danger">
+        <strong>Error</strong>@errorMessage
+        <button type="button" class="btn-close float-end" data-bs-dismiss="alert"></button>
+    </div>
+}
+<form>
+    <button asp-action="Create" asp-controller="Transaction" class="btn btn-primary mb-3">Create transaction</button>
+    <table class="table table-dark table-striped">
+        <thead>
+            <tr class="table-active">
+                <th class="text-center">Account name</th>
+                <th class="text-center">Beneficiary name</th>
+                <th class="text-center">Bank name</th>
+                <th class="text-center">SWIFT Code</th>
+                <th class="text-end">Amount</th>
+                <th class="text-center">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null && Model.Any())
+            {
+                @foreach (var transactionDto in Model)
+                {
+                    <tr>
+                        <td class="text-center">@transactionDto.AccountName</td>
+                        <td class="text-center">@transactionDto.BeneficiaryName</td>
+                        <td class="text-center">@transactionDto.BankName</td>
+                        <td class="text-center">@transactionDto.SWIFTCode</td>
+                        <td class="text-end">@transactionDto.Amount</td>
+                        <td class="text-center">
+                            <a asp-controller="Transaction" asp-action="Edit" asp-route-id="@transactionDto.TransactionId" class="btn btn-primary">Edit</a>
+                            <a asp-controller="Transaction" asp-action="Delete" asp-route-id="@transactionDto.TransactionId" class="btn btn-danger">Delete</a>
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="6">
+                        <div>
+                            No transactions availble at this moment
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</form>

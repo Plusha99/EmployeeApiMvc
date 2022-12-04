@@ -29,7 +29,7 @@ else if(!string.IsNullOrWhiteSpace(@errorMessage))
                 <th class="text-center">Name</th>
                 <th class="text-center">Date Of Birth</th>
                 <th class="text-center">E-mail</th>
-                <th class="text-center">Salary</th>
+                <th class="text-end">Salary</th>
                 <th class="text-center">Action</th>
             </tr>
         </thead>
@@ -39,14 +39,15 @@ else if(!string.IsNullOrWhiteSpace(@errorMessage))
                 @foreach(var employeedto in Model)
                 {
                     <tr>
-                        <td>@employeedto.Id</td>
+                        <td class="text-center">@employeedto.Id</td>
                         <td class="text-center">@employeedto.FullName</td>
-                        <td>@employeedto.DateOfBirth.ToString("dd/MM/yyyy")</td>
-                        <td>@employeedto.Email</td>
+                        <td class="text-center">@employeedto.DateOfBirth.ToString("dd/MM/yyyy")</td>
+                        <td class="text-center">@employeedto.Email</td>
                         <td class="text-end">@employeedto.Salary</td>
                         <td class="text-center">
                             <a asp-controller="Employee" asp-action="Edit" asp-route-id="@employeedto.Id" class="btn btn-primary">Edit</a>
                             <a asp-controller="Employee" asp-action="Delete" asp-route-id="@employeedto.Id" class="btn btn-danger">Delete</a>
+                            <a asp-controller="Transaction" asp-action="Index" asp-route-id="@employeedto.Id" class="btn btn-success">Transactions</a>
                         </td>
                     </tr>
                 }
