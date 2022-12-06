@@ -13,6 +13,5 @@ namespace EmployeeApiMvc.Models
         public DateTime DateOfBirth { get; set; }
         public string Email { get; set; }
         public double Salary { get; set; }
-        public List<Transaction> Transactions { get; set; }
     }
 }

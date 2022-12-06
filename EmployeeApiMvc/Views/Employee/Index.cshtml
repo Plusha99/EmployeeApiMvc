@@ -47,7 +47,6 @@ else if(!string.IsNullOrWhiteSpace(@errorMessage))
                         <td class="text-center">
                             <a asp-controller="Employee" asp-action="Edit" asp-route-id="@employeedto.Id" class="btn btn-primary">Edit</a>
                             <a asp-controller="Employee" asp-action="Delete" asp-route-id="@employeedto.Id" class="btn btn-danger">Delete</a>
-                            <a asp-controller="Transaction" asp-action="Index" asp-route-id="@employeedto.Id" class="btn btn-success">Transactions</a>
                         </td>
                     </tr>
                 }
